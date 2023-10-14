@@ -2,39 +2,39 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://example.org/en/categories/</loc><xhtml:link
+            <loc>jianguo888.github.io/en/categories/</loc><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
-                        href="https://example.org/categories/"
+                        href="jianguo888.github.io/categories/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://example.org/en/categories/"
+                    href="jianguo888.github.io/en/categories/"
                     /></url><url>
-            <loc>https://example.org/en/categories/documentation/</loc><xhtml:link
+            <loc>jianguo888.github.io/en/categories/documentation/</loc><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
-                        href="https://example.org/categories/documentation/"
+                        href="jianguo888.github.io/categories/documentation/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://example.org/en/categories/documentation/"
+                    href="jianguo888.github.io/en/categories/documentation/"
                     /></url><url>
-            <loc>https://example.org/en/tags/</loc><xhtml:link
+            <loc>jianguo888.github.io/en/tags/</loc><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
-                        href="https://example.org/tags/"
+                        href="jianguo888.github.io/tags/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://example.org/en/tags/"
+                    href="jianguo888.github.io/en/tags/"
                     /></url><url>
-            <loc>https://example.org/en/</loc><xhtml:link
+            <loc>jianguo888.github.io/en/</loc><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
-                        href="https://example.org/"
+                        href="jianguo888.github.io/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://example.org/en/"
+                    href="jianguo888.github.io/en/"
                     /></url></urlset>

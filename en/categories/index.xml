@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Categories - Category - 坚果的博客</title>
-        <link>https://example.org/en/categories/</link>
+        <link>jianguo888.github.io/en/categories/</link>
         <description>Categories - Category - 坚果的博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://example.org/en/categories/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="jianguo888.github.io/en/categories/" rel="self" type="application/rss+xml" /><item>
     <title>Documentation</title>
-    <link>https://example.org/en/categories/documentation/</link>
+    <link>jianguo888.github.io/en/categories/documentation/</link>
     <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
     <author>Author</author>
-    <guid>https://example.org/en/categories/documentation/</guid>
+    <guid>jianguo888.github.io/en/categories/documentation/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>

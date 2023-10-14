@@ -1,9 +1,9 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>坚果的博客</title>
-        <link>https://example.org/en/</link>
+        <link>jianguo888.github.io/en/</link>
         <description>坚果的博客</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-            <atom:link href="https://example.org/en/index.xml" rel="self" type="application/rss+xml" />
+            <atom:link href="jianguo888.github.io/en/index.xml" rel="self" type="application/rss+xml" />
         </channel>
 </rss>

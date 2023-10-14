@@ -2,58 +2,58 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://example.org/posts/basic-markdown-syntax/</loc><lastmod>2020-01-01T16:45:40&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/posts/emoji-support/</loc><lastmod>2019-10-01T17:55:28&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/posts/theme-documentation-bilibili-shortcode/</loc><lastmod>2020-03-03T12:29:41&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/categories/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod><xhtml:link
+            <loc>jianguo888.github.io/posts/basic-markdown-syntax/</loc><lastmod>2020-01-01T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/posts/emoji-support/</loc><lastmod>2019-10-01T17:55:28&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/posts/theme-documentation-bilibili-shortcode/</loc><lastmod>2020-03-03T12:29:41&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/categories/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod><xhtml:link
                         rel="alternate"
                         hreflang="en"
-                        href="https://example.org/en/categories/"
+                        href="jianguo888.github.io/en/categories/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="zh-cn"
-                    href="https://example.org/categories/"
+                    href="jianguo888.github.io/categories/"
                     /></url><url>
-            <loc>https://example.org/tags/harmonyos/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/categories/harmonyos/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/posts/hong/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/tags/openharmony/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/categories/openharmony/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/posts/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/tags/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod><xhtml:link
+            <loc>jianguo888.github.io/tags/harmonyos/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/categories/harmonyos/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/posts/hong/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/tags/openharmony/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/categories/openharmony/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/posts/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/tags/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod><xhtml:link
                         rel="alternate"
                         hreflang="en"
-                        href="https://example.org/en/tags/"
+                        href="jianguo888.github.io/en/tags/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="zh-cn"
-                    href="https://example.org/tags/"
+                    href="jianguo888.github.io/tags/"
                     /></url><url>
-            <loc>https://example.org/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod><xhtml:link
+            <loc>jianguo888.github.io/</loc><lastmod>2023-10-14T13:11:14&#43;08:00</lastmod><xhtml:link
                         rel="alternate"
                         hreflang="en"
-                        href="https://example.org/en/"
+                        href="jianguo888.github.io/en/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="zh-cn"
-                    href="https://example.org/"
+                    href="jianguo888.github.io/"
                     /></url><url>
-            <loc>https://example.org/posts/first/</loc><lastmod>2023-10-14T13:03:23&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/tags/shortcodes/</loc><lastmod>2020-03-03T12:29:41&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/categories/documentation/</loc><lastmod>2020-03-03T12:29:41&#43;08:00</lastmod><xhtml:link
+            <loc>jianguo888.github.io/posts/first/</loc><lastmod>2023-10-14T13:03:23&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/tags/shortcodes/</loc><lastmod>2020-03-03T12:29:41&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/categories/documentation/</loc><lastmod>2020-03-03T12:29:41&#43;08:00</lastmod><xhtml:link
                         rel="alternate"
                         hreflang="en"
-                        href="https://example.org/en/categories/documentation/"
+                        href="jianguo888.github.io/en/categories/documentation/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="zh-cn"
-                    href="https://example.org/categories/documentation/"
+                    href="jianguo888.github.io/categories/documentation/"
                     /></url><url>
-            <loc>https://example.org/tags/html/</loc><lastmod>2020-01-01T16:45:40&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/tags/markdown/</loc><lastmod>2020-01-01T16:45:40&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/categories/markdown/</loc><lastmod>2020-01-01T16:45:40&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/tags/emoji/</loc><lastmod>2019-10-01T17:55:28&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/about/</loc><lastmod>2019-08-02T11:04:49&#43;08:00</lastmod></url><url>
-            <loc>https://example.org/tags/installation/</loc></url><url>
-            <loc>https://example.org/tags/content/</loc></url><url>
-            <loc>https://example.org/tags/configuration/</loc></url></urlset>
+            <loc>jianguo888.github.io/tags/html/</loc><lastmod>2020-01-01T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/tags/markdown/</loc><lastmod>2020-01-01T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/categories/markdown/</loc><lastmod>2020-01-01T16:45:40&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/tags/emoji/</loc><lastmod>2019-10-01T17:55:28&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/about/</loc><lastmod>2019-08-02T11:04:49&#43;08:00</lastmod></url><url>
+            <loc>jianguo888.github.io/tags/installation/</loc></url><url>
+            <loc>jianguo888.github.io/tags/content/</loc></url><url>
+            <loc>jianguo888.github.io/tags/configuration/</loc></url></urlset>
