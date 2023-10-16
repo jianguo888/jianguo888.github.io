@@ -3,7 +3,24 @@
         <title>OpenHarmony - 标签 - 坚果的博客</title>
         <link>jianguo888.github.io/tags/openharmony/</link>
         <description>OpenHarmony - 标签 - 坚果的博客</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 14 Oct 2023 13:11:14 &#43;0800</lastBuildDate><atom:link href="jianguo888.github.io/tags/openharmony/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 16 Oct 2023 13:01:47 &#43;0800</lastBuildDate><atom:link href="jianguo888.github.io/tags/openharmony/" rel="self" type="application/rss+xml" /><item>
+    <title>Git</title>
+    <link>jianguo888.github.io/posts/git/</link>
+    <pubDate>Mon, 16 Oct 2023 13:01:47 &#43;0800</pubDate>
+    <author>坚果</author>
+    <guid>jianguo888.github.io/posts/git/</guid>
+    <description><![CDATA[Suap工具获取：IDE插件市场搜索 OpenHarmony SDK Upgrade Assistant
+Suap工具使用指导：SDK Upgrade Assistant-使用指导]]></description>
+</item>
+<item>
+    <title>Arkui X</title>
+    <link>jianguo888.github.io/posts/arkui-x/</link>
+    <pubDate>Sun, 15 Oct 2023 13:23:26 &#43;0800</pubDate>
+    <author>坚果</author>
+    <guid>jianguo888.github.io/posts/arkui-x/</guid>
+    <description><![CDATA[<p></p>]]></description>
+</item>
+<item>
     <title>OpenHarmony系统类型</title>
     <link>jianguo888.github.io/posts/hong/</link>
     <pubDate>Sat, 14 Oct 2023 13:11:14 &#43;0800</pubDate>
