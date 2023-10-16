@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>并发 - 坚果的博客</title><meta name="Description" content="Hugo theme - LoveIt"><meta property="og:title" content="并发" />
+<meta property="og:description" content="并发 并发是指在同一时间段内，能够处理多个任务的能力。为了提升应用的响应速度与帧率，以及防止耗时任务对主线程的干扰，HarmonyOS系统提供了异步并发和多线程并发两种处理策略。
+异步并发是指异步代码在执行到一定程度后会被暂停，以便在未来某个时间点继续执行，这种情况下，同一时间只有一段代码在执行。 多线程并发允许在同一时间段内同时执行多段代码。在主线程继续响应用户操作和更新UI的同时，后台也能执行耗时操作，从而避免应用出现卡顿。 并发能力在多种场景中都有应用，其中包括单次I/O任务、CPU密集型任务、I/O密集型任务和同步任务等。开发者可以根据不同的场景，选择相应的并发策略进行优化和开发。
+ArkTS支持异步并发和多线程并发。
+Promise和async/await提供异步并发能力，适用于单次I/O任务的开发场景。 TaskPool和Worker提供多线程并发能力，适用于CPU密集型任务、I/O密集型任务和同步任务等并发场景。详细请参见多线程并发概述。 异步并发 Promise和async/await提供异步并发能力，是标准的JS异步语法。异步代码会被挂起并在之后继续执行，同一时间只有一段代码执行，适用于单次I/O任务的场景开发，例如一次网络请求、一次文件读写等操作。
+异步语法是一种编程语言的特性，允许程序在执行某些操作时不必等待其完成，而是可以继续执行其他操作。
+Promise Promise是一种用于处理异步操作的对象，可以将异步操作转换为类似于同步操作的风格，以方便代码编写和维护。Promise提供了一个状态机制来管理异步操作的不同阶段，并提供了一些方法来注册回调函数以处理异步操作的成功或失败的结果。
+Promise有三种状态：pending（进行中）、fulfilled（已完成）和rejected（已拒绝）。Promise对象创建后处于pending状态，并在异步操作完成后转换为fulfilled或rejected状态。
+最基本的用法是通过构造函数实例化一个Promise对象，同时传入一个带有两个参数的函数，通常称为executor函数。executor函数接收两个参数：resolve和reject，分别表示异步操作成功和失败时的回调函数。例如，以下代码创建了一个Promise对象并模拟了一个异步操作：
+const promise = new Promise((resolve, reject) =&gt; { setTimeout(() =&gt; { const randomNumber = Math.random(); if (randomNumber &gt; 0.5) { resolve(randomNumber); } else { reject(new Error(&#39;Random number is too small&#39;)); } }, 1000); }); 上述代码中，setTimeout函数模拟了一个异步操作，并在1秒钟后随机生成一个数字。如果随机数大于0.5，则执行resolve回调函数并将随机数作为参数传递；否则执行reject回调函数并传递一个错误对象作为参数。
+Promise对象创建后，可以使用then方法和catch方法指定fulfilled状态和rejected状态的回调函数。then方法可接受两个参数，一个处理fulfilled状态的函数，另一个处理rejected状态的函数。只传一个参数则表示状态改变就执行，不区分状态结果。使用catch方法注册一个回调函数，用于处理“失败”的结果，即捕获Promise的状态改变为rejected状态或操作失败抛出的异常。例如：
+promise.then(result =&gt; { console.info(`Random number is ${result}`); }).catch(error =&gt; { console.error(error.message); }); 上述代码中，then方法的回调函数接收Promise对象的成功结果作为参数，并将其输出到控制台上。如果Promise对象进入rejected状态，则catch方法的回调函数接收错误对象作为参数，并将其输出到控制台上。
+async/await async/await是一种用于处理异步操作的Promise语法糖，使得编写异步代码变得更加简单和易读。通过使用async关键字声明一个函数为异步函数，并使用await关键字等待Promise的解析（完成或拒绝），以同步的方式编写异步操作的代码。
+async函数是一个返回Promise对象的函数，用于表示一个异步操作。在async函数内部，可以使用await关键字等待一个Promise对象的解析，并返回其解析值。如果一个async函数抛出异常，那么该函数返回的Promise对象将被拒绝，并且异常信息会被传递给Promise对象的onRejected()方法。
+下面是一个使用async/await的例子，其中模拟了一个异步操作，该操作会在3秒钟后返回一个字符串。
+async function myAsyncFunction() { const result = await new Promise((resolve) =&gt; { setTimeout(() =&gt; { resolve(&#39;Hello, world!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="jianguo888.github.io/posts/ho/%E5%B9%B6%E5%8F%91/" /><meta property="og:image" content="/avatar.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-17T07:45:11+08:00" />
+<meta property="article:modified_time" content="2023-10-17T07:45:11+08:00" /><meta property="og:site_name" content="坚果的博客" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/avatar.png"/>
+
+<meta name="twitter:title" content="并发"/>
+<meta name="twitter:description" content="并发 并发是指在同一时间段内，能够处理多个任务的能力。为了提升应用的响应速度与帧率，以及防止耗时任务对主线程的干扰，HarmonyOS系统提供了异步并发和多线程并发两种处理策略。
+异步并发是指异步代码在执行到一定程度后会被暂停，以便在未来某个时间点继续执行，这种情况下，同一时间只有一段代码在执行。 多线程并发允许在同一时间段内同时执行多段代码。在主线程继续响应用户操作和更新UI的同时，后台也能执行耗时操作，从而避免应用出现卡顿。 并发能力在多种场景中都有应用，其中包括单次I/O任务、CPU密集型任务、I/O密集型任务和同步任务等。开发者可以根据不同的场景，选择相应的并发策略进行优化和开发。
+ArkTS支持异步并发和多线程并发。
+Promise和async/await提供异步并发能力，适用于单次I/O任务的开发场景。 TaskPool和Worker提供多线程并发能力，适用于CPU密集型任务、I/O密集型任务和同步任务等并发场景。详细请参见多线程并发概述。 异步并发 Promise和async/await提供异步并发能力，是标准的JS异步语法。异步代码会被挂起并在之后继续执行，同一时间只有一段代码执行，适用于单次I/O任务的场景开发，例如一次网络请求、一次文件读写等操作。
+异步语法是一种编程语言的特性，允许程序在执行某些操作时不必等待其完成，而是可以继续执行其他操作。
+Promise Promise是一种用于处理异步操作的对象，可以将异步操作转换为类似于同步操作的风格，以方便代码编写和维护。Promise提供了一个状态机制来管理异步操作的不同阶段，并提供了一些方法来注册回调函数以处理异步操作的成功或失败的结果。
+Promise有三种状态：pending（进行中）、fulfilled（已完成）和rejected（已拒绝）。Promise对象创建后处于pending状态，并在异步操作完成后转换为fulfilled或rejected状态。
+最基本的用法是通过构造函数实例化一个Promise对象，同时传入一个带有两个参数的函数，通常称为executor函数。executor函数接收两个参数：resolve和reject，分别表示异步操作成功和失败时的回调函数。例如，以下代码创建了一个Promise对象并模拟了一个异步操作：
+const promise = new Promise((resolve, reject) =&gt; { setTimeout(() =&gt; { const randomNumber = Math.random(); if (randomNumber &gt; 0.5) { resolve(randomNumber); } else { reject(new Error(&#39;Random number is too small&#39;)); } }, 1000); }); 上述代码中，setTimeout函数模拟了一个异步操作，并在1秒钟后随机生成一个数字。如果随机数大于0.5，则执行resolve回调函数并将随机数作为参数传递；否则执行reject回调函数并传递一个错误对象作为参数。
+Promise对象创建后，可以使用then方法和catch方法指定fulfilled状态和rejected状态的回调函数。then方法可接受两个参数，一个处理fulfilled状态的函数，另一个处理rejected状态的函数。只传一个参数则表示状态改变就执行，不区分状态结果。使用catch方法注册一个回调函数，用于处理“失败”的结果，即捕获Promise的状态改变为rejected状态或操作失败抛出的异常。例如：
+promise.then(result =&gt; { console.info(`Random number is ${result}`); }).catch(error =&gt; { console.error(error.message); }); 上述代码中，then方法的回调函数接收Promise对象的成功结果作为参数，并将其输出到控制台上。如果Promise对象进入rejected状态，则catch方法的回调函数接收错误对象作为参数，并将其输出到控制台上。
+async/await async/await是一种用于处理异步操作的Promise语法糖，使得编写异步代码变得更加简单和易读。通过使用async关键字声明一个函数为异步函数，并使用await关键字等待Promise的解析（完成或拒绝），以同步的方式编写异步操作的代码。
+async函数是一个返回Promise对象的函数，用于表示一个异步操作。在async函数内部，可以使用await关键字等待一个Promise对象的解析，并返回其解析值。如果一个async函数抛出异常，那么该函数返回的Promise对象将被拒绝，并且异常信息会被传递给Promise对象的onRejected()方法。
+下面是一个使用async/await的例子，其中模拟了一个异步操作，该操作会在3秒钟后返回一个字符串。
+async function myAsyncFunction() { const result = await new Promise((resolve) =&gt; { setTimeout(() =&gt; { resolve(&#39;Hello, world!"/>
+<meta name="application-name" content="坚果的博客">
+<meta name="apple-mobile-web-app-title" content="坚果的博客"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="jianguo888.github.io/posts/ho/%E5%B9%B6%E5%8F%91/" /><link rel="prev" href="jianguo888.github.io/posts/git/" /><link rel="next" href="jianguo888.github.io/posts/theme-documentation-bilibili-shortcode/" /><link rel="stylesheet" href="/jianguo888.github.io/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><meta name="google-site-verification" content="1024" /><meta name="baidu-site-verification" content="1024" /><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "并发",
+        "inLanguage": "zh-cn",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "jianguo888.github.io\/posts\/ho\/%E5%B9%B6%E5%8F%91\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "\/jianguo888.github.io\/images\/Apple-Devices-Preview.png",
+                            "width":  3200 ,
+                            "height":  2048 
+                        }],"genre": "posts","keywords": "OpenHarmony, HarmonyOS","wordcount":  282 ,
+        "url": "jianguo888.github.io\/posts\/ho\/%E5%B9%B6%E5%8F%91\/","datePublished": "2023-10-17T07:45:11+08:00","dateModified": "2023-10-17T07:45:11+08:00","publisher": {
+            "@type": "Organization",
+            "name": "坚果","logo": {
+                    "@type": "ImageObject",
+                    "url": "\/jianguo888.github.io\/images\/avatar.png",
+                    "width":  960 ,
+                    "height":  960 
+                }},"author": {
+                "@type": "Person",
+                "name": "坚果"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="jianguo888.github.io/" title="坚果的博客"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/jianguo888.github.io/posts/"> 所有文档 
+                    </a><a class="menu-item" href="/jianguo888.github.io/tags/"> 标签 
+                    </a><a class="menu-item" href="/jianguo888.github.io/categories/"> 分类 
+                    </a><a class="menu-item" href="/jianguo888.github.io/categories/documentation/"> 文档 
+                    </a><a class="menu-item" href="/jianguo888.github.io/about/"> 关于 
+                    </a><a class="menu-item" href="/jianguo888.github.io/friend/"> 友链 
+                    </a><a class="menu-item" href="https://gitee.com/jianguo888/" title="Gitee" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i> Gitee 
+                    </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="jianguo888.github.io/" title="坚果的博客"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i></span><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/jianguo888.github.io/posts/" title="">所有文档</a><a class="menu-item" href="/jianguo888.github.io/tags/" title="">标签</a><a class="menu-item" href="/jianguo888.github.io/categories/" title="">分类</a><a class="menu-item" href="/jianguo888.github.io/categories/documentation/" title="">文档</a><a class="menu-item" href="/jianguo888.github.io/about/" title="">关于_blank</a><a class="menu-item" href="/jianguo888.github.io/friend/" title="">友链_blank</a><a class="menu-item" href="https://gitee.com/jianguo888/" title="Gitee" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>Gitee_blank</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">并发</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://gitee.com/jianguo888/" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>坚果</a></span>&nbsp;<span class="post-category">收录于 <a href="jianguo888.github.io/categories/openharmony/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>OpenHarmony</a>&nbsp;<a href="jianguo888.github.io/categories/harmonyos/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>HarmonyOS</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-10-17">2023-10-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 282 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 2 分钟&nbsp;<span id="jianguo888.github.io/posts/ho/%E5%B9%B6%E5%8F%91/" class="leancloud_visitors" data-flag-title="并发">
+                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#并发">并发</a></li>
+    <li><a href="#异步并发">异步并发</a>
+      <ul>
+        <li><a href="#promise">Promise</a></li>
+        <li><a href="#asyncawait">async/await</a></li>
+      </ul>
+    </li>
+    <li><a href="#多线程并发">多线程并发</a>
+      <ul>
+        <li><a href="#taskpool和worker的对比">TaskPool和Worker的对比</a></li>
+        <li><a href="#适用场景对比">适用场景对比</a></li>
+        <li><a href="#taskpool运作机制">TaskPool运作机制</a></li>
+        <li><a href="#worker运作机制">Worker运作机制</a></li>
+        <li><a href="#taskpool注意事项">TaskPool注意事项</a></li>
+        <li><a href="#worker注意事项">Worker注意事项</a></li>
+        <li><a href="#文件路径注意事项">文件路径注意事项</a></li>
+        <li><a href="#生命周期注意事项">生命周期注意事项</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="并发">并发</h2>
+<p>并发是指在同一时间段内，能够处理多个任务的能力。为了提升应用的响应速度与帧率，以及防止耗时任务对主线程的干扰，HarmonyOS系统提供了异步并发和多线程并发两种处理策略。</p>
+<ul>
+<li>异步并发是指异步代码在执行到一定程度后会被暂停，以便在未来某个时间点继续执行，这种情况下，同一时间只有一段代码在执行。</li>
+<li>多线程并发允许在同一时间段内同时执行多段代码。在主线程继续响应用户操作和更新UI的同时，后台也能执行耗时操作，从而避免应用出现卡顿。</li>
+</ul>
+<p>并发能力在多种场景中都有应用，其中包括单次I/O任务、CPU密集型任务、I/O密集型任务和同步任务等。开发者可以根据不同的场景，选择相应的并发策略进行优化和开发。</p>
+<p>ArkTS支持异步并发和多线程并发。</p>
+<ul>
+<li>Promise和async/await提供异步并发能力，适用于单次I/O任务的开发场景。</li>
+<li>TaskPool和Worker提供多线程并发能力，适用于CPU密集型任务、I/O密集型任务和同步任务等并发场景。详细请参见<a href="https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/multi-thread-concurrency-overview-0000001632530090-V3" target="_blank" rel="noopener noreffer ">多线程并发概述</a>。</li>
+</ul>
+<h2 id="异步并发">异步并发</h2>
+<p>Promise和async/await提供异步并发能力，是标准的JS异步语法。异步代码会被挂起并在之后继续执行，同一时间只有一段代码执行，适用于单次I/O任务的场景开发，例如一次网络请求、一次文件读写等操作。</p>
+<p>异步语法是一种编程语言的特性，允许程序在执行某些操作时不必等待其完成，而是可以继续执行其他操作。</p>
+<h3 id="promise">Promise</h3>
+<p>Promise是一种用于处理异步操作的对象，可以将异步操作转换为类似于同步操作的风格，以方便代码编写和维护。Promise提供了一个状态机制来管理异步操作的不同阶段，并提供了一些方法来注册回调函数以处理异步操作的成功或失败的结果。</p>
+<p>Promise有三种状态：pending（进行中）、fulfilled（已完成）和rejected（已拒绝）。Promise对象创建后处于pending状态，并在异步操作完成后转换为fulfilled或rejected状态。</p>
+<p>最基本的用法是通过构造函数实例化一个Promise对象，同时传入一个带有两个参数的函数，通常称为executor函数。executor函数接收两个参数：resolve和reject，分别表示异步操作成功和失败时的回调函数。例如，以下代码创建了一个Promise对象并模拟了一个异步操作：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">promise</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setTimeout</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">randomNumber</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">random</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">randomNumber</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.5</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">randomNumber</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">reject</span>(<span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;Random number is too small&#39;</span>));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }, <span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>上述代码中，setTimeout函数模拟了一个异步操作，并在1秒钟后随机生成一个数字。如果随机数大于0.5，则执行resolve回调函数并将随机数作为参数传递；否则执行reject回调函数并传递一个错误对象作为参数。</p>
+<p>Promise对象创建后，可以使用then方法和catch方法指定fulfilled状态和rejected状态的回调函数。then方法可接受两个参数，一个处理fulfilled状态的函数，另一个处理rejected状态的函数。只传一个参数则表示状态改变就执行，不区分状态结果。使用catch方法注册一个回调函数，用于处理“失败”的结果，即捕获Promise的状态改变为rejected状态或操作失败抛出的异常。例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">promise</span>.<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">result</span> =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">info</span>(<span style="color:#e6db74">`Random number is </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">result</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>}).<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">error</span> =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">error</span>.<span style="color:#a6e22e">message</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>上述代码中，then方法的回调函数接收Promise对象的成功结果作为参数，并将其输出到控制台上。如果Promise对象进入rejected状态，则catch方法的回调函数接收错误对象作为参数，并将其输出到控制台上。</p>
+<h3 id="asyncawait">async/await</h3>
+<p>async/await是一种用于处理异步操作的Promise语法糖，使得编写异步代码变得更加简单和易读。通过使用async关键字声明一个函数为异步函数，并使用await关键字等待Promise的解析（完成或拒绝），以同步的方式编写异步操作的代码。</p>
+<p>async函数是一个返回Promise对象的函数，用于表示一个异步操作。在async函数内部，可以使用await关键字等待一个Promise对象的解析，并返回其解析值。如果一个async函数抛出异常，那么该函数返回的Promise对象将被拒绝，并且异常信息会被传递给Promise对象的onRejected()方法。</p>
+<p>下面是一个使用async/await的例子，其中模拟了一个异步操作，该操作会在3秒钟后返回一个字符串。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">myAsyncFunction</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setTimeout</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#39;Hello, world!&#39;</span>);
+</span></span><span style="display:flex;"><span>    }, <span style="color:#ae81ff">3000</span>);
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">info</span>(String(<span style="color:#a6e22e">result</span>)); <span style="color:#75715e">// 输出： Hello, world!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">myAsyncFunction</span>();
+</span></span></code></pre></div><p>在上述示例代码中，使用了await关键字来等待Promise对象的解析，并将其解析值存储在result变量中。</p>
+<p>需要注意的是，由于要等待异步操作完成，因此需要将整个操作包在async函数中。除了在async函数中使用await外，还可以使用try/catch块来捕获异步操作中的异常。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">myAsyncFunction</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>) =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#39;Hello, world!&#39;</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">e</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">`Get exception: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">e</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">myAsyncFunction</span>();
+</span></span></code></pre></div><h2 id="多线程并发">多线程并发</h2>
+<p>并发模型是用来实现不同应用场景中并发任务的编程模型，常见的并发模型分为基于内存共享的并发模型和基于消息通信的并发模型。</p>
+<p>Actor并发模型作为基于消息通信并发模型的典型代表，不需要开发者去面对锁带来的一系列复杂偶发的问题，同时并发度也相对较高，因此得到了广泛的支持和使用，也是当前ArkTS语言选择的并发模型。</p>
+<p>由于Actor模型的内存隔离特性，所以需要进行跨线程的数据序列化传输。</p>
+<h3 id="taskpool和worker的对比">TaskPool和Worker的对比</h3>
+<p>TaskPool（任务池）和Worker的作用是为应用程序提供一个多线程的运行环境，用于处理耗时的计算任务或其他密集型任务。可以有效地避免这些任务阻塞主线程，从而最大化系统的利用率，降低整体资源消耗，并提高系统的整体性能。</p>
+<p><strong>表1</strong> TaskPool和Worker的实现特点对比</p>
+<table>
+<thead>
+<tr>
+<th>实现</th>
+<th>TaskPool</th>
+<th>Worker</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内存模型</td>
+<td>线程间隔离，内存不共享。</td>
+<td>线程间隔离，内存不共享。</td>
+</tr>
+<tr>
+<td>参数传递机制</td>
+<td>采用标准的结构化克隆算法（Structured Clone）进行序列化、反序列化，完成参数传递。支持ArrayBuffer转移和SharedArrayBuffer共享。</td>
+<td>采用标准的结构化克隆算法（Structured Clone）进行序列化、反序列化，完成参数传递。支持ArrayBuffer转移和SharedArrayBuffer共享。</td>
+</tr>
+<tr>
+<td>参数传递</td>
+<td>直接传递，无需封装，默认进行transfer。</td>
+<td>消息对象唯一参数，需要自己封装。</td>
+</tr>
+<tr>
+<td>方法调用</td>
+<td>直接将方法传入调用。</td>
+<td>在Worker线程中进行消息解析并调用对应方法。</td>
+</tr>
+<tr>
+<td>返回值</td>
+<td>异步调用后默认返回。</td>
+<td>主动发送消息，需在onmessage解析赋值。</td>
+</tr>
+<tr>
+<td>生命周期</td>
+<td>TaskPool自行管理生命周期，无需关心任务负载高低。</td>
+<td>开发者自行管理Worker的数量及生命周期。</td>
+</tr>
+<tr>
+<td>任务池个数上限</td>
+<td>自动管理，无需配置。</td>
+<td>最多开启8个Worker。</td>
+</tr>
+<tr>
+<td>任务执行时长上限</td>
+<td>无限制。</td>
+<td>无限制。</td>
+</tr>
+<tr>
+<td>设置任务的优先级</td>
+<td>不支持。</td>
+<td>不支持。</td>
+</tr>
+<tr>
+<td>执行任务的取消</td>
+<td>支持取消任务队列中等待的任务。</td>
+<td>不支持。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="适用场景对比">适用场景对比</h3>
+<p>TaskPool和Worker均支持多线程并发能力。TaskPool偏向独立任务（线程级）维度；而Worker偏向线程的维度，支持长时间占据线程执行。</p>
+<p>常见的一些开发场景及适用具体说明如下：</p>
+<ul>
+<li>有关联的一系列同步任务。例如某数据库操作时，要用创建的句柄操作，包含增、删、改、查多个任务，要保证同一个句柄，需要使用Worker。</li>
+<li>需要频繁取消的任务。例如图库大图浏览场景，为提升体验，会同时缓存当前图片左右侧各2张图片，往一侧滑动跳到下一张图片时，要取消另一侧的一个缓存任务，需要使用TaskPool。</li>
+<li>大量或者调度点较分散的任务。例如大型应用的多个模块包含多个耗时任务，不方便使用8个Worker去做负载管理，推荐采用TaskPool。</li>
+</ul>
+<h3 id="taskpool运作机制">TaskPool运作机制</h3>
+<p>TaskPool运作机制示意图</p>
+<p><img
+        class="lazyload"
+        src="/jianguo888.github.io/svg/loading.min.svg"
+        data-src="https://luckly007.oss-cn-beijing.aliyuncs.com/uPic/0000000000011111111.20230821150823.34645782326624135436573884015300:50001231000000:2800:0F8D74EC8C7187824C7C510AB2F2EE156196383E9F9709752D1156902817DBD5.png"
+        data-srcset="https://luckly007.oss-cn-beijing.aliyuncs.com/uPic/0000000000011111111.20230821150823.34645782326624135436573884015300:50001231000000:2800:0F8D74EC8C7187824C7C510AB2F2EE156196383E9F9709752D1156902817DBD5.png, https://luckly007.oss-cn-beijing.aliyuncs.com/uPic/0000000000011111111.20230821150823.34645782326624135436573884015300:50001231000000:2800:0F8D74EC8C7187824C7C510AB2F2EE156196383E9F9709752D1156902817DBD5.png 1.5x, https://luckly007.oss-cn-beijing.aliyuncs.com/uPic/0000000000011111111.20230821150823.34645782326624135436573884015300:50001231000000:2800:0F8D74EC8C7187824C7C510AB2F2EE156196383E9F9709752D1156902817DBD5.png 2x"
+        data-sizes="auto"
+        alt="https://luckly007.oss-cn-beijing.aliyuncs.com/uPic/0000000000011111111.20230821150823.34645782326624135436573884015300:50001231000000:2800:0F8D74EC8C7187824C7C510AB2F2EE156196383E9F9709752D1156902817DBD5.png"
+        title="img" /></p>
+<p>TaskPool支持开发者在主线程封装任务抛给任务队列，系统选择合适的工作线程，进行任务的分发及执行，再将结果返回给主线程。接口直观易用，支持任务的执行、取消。工作线程数量上限为4。</p>
+<h3 id="worker运作机制">Worker运作机制</h3>
+<p>Worker运作机制示意图</p>
+<p><img
+        class="lazyload"
+        src="/jianguo888.github.io/svg/loading.min.svg"
+        data-src="https://luckly007.oss-cn-beijing.aliyuncs.com/uPic/0000000000011111111.20230821150823.83243207079078314787811730339744:50001231000000:2800:477E8507258AAB3D9A6857C526B475730FA3618B44B7658C5C964EF9501BDA7C.png"
+        data-srcset="https://luckly007.oss-cn-beijing.aliyuncs.com/uPic/0000000000011111111.20230821150823.83243207079078314787811730339744:50001231000000:2800:477E8507258AAB3D9A6857C526B475730FA3618B44B7658C5C964EF9501BDA7C.png, https://luckly007.oss-cn-beijing.aliyuncs.com/uPic/0000000000011111111.20230821150823.83243207079078314787811730339744:50001231000000:2800:477E8507258AAB3D9A6857C526B475730FA3618B44B7658C5C964EF9501BDA7C.png 1.5x, https://luckly007.oss-cn-beijing.aliyuncs.com/uPic/0000000000011111111.20230821150823.83243207079078314787811730339744:50001231000000:2800:477E8507258AAB3D9A6857C526B475730FA3618B44B7658C5C964EF9501BDA7C.png 2x"
+        data-sizes="auto"
+        alt="https://luckly007.oss-cn-beijing.aliyuncs.com/uPic/0000000000011111111.20230821150823.83243207079078314787811730339744:50001231000000:2800:477E8507258AAB3D9A6857C526B475730FA3618B44B7658C5C964EF9501BDA7C.png"
+        title="img" /></p>
+<p>创建Worker的线程称为宿主线程（不一定是主线程，工作线程也支持创建Worker子线程），Worker自身的线程称为Worker子线程（或Actor线程、工作线程）。每个Worker子线程与宿主线程拥有独立的实例，包含基础设施、对象、代码段等。Worker子线程和宿主线程之间的通信是基于消息传递的，Worker通过序列化机制与宿主线程之间相互通信，完成命令及数据交互。</p>
+<h3 id="taskpool注意事项">TaskPool注意事项</h3>
+<ul>
+<li>实现任务的函数需要使用装饰器@Concurrent标注，且仅支持在.ets文件中使用。</li>
+<li>实现任务的函数只支持普通函数或者async函数，不支持类成员函数或者匿名函数。</li>
+<li>实现任务的函数仅支持在Stage模型的工程中使用import的变量和入参变量，否则只能使用入参变量。</li>
+<li>实现任务的函数入参需满足序列化支持的类型，详情请参见<a href="https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/multi-thread-concurrency-overview-0000001632530090-V3#ZH-CN_TOPIC_0000001632530090__%e6%99%ae%e9%80%9a%e5%af%b9%e8%b1%a1" target="_blank" rel="noopener noreffer ">普通对象传输</a>。</li>
+<li>由于不同线程中上下文对象是不同的，因此TaskPool工作线程只能使用线程安全的库，例如UI相关的非线程安全库不能使用。</li>
+<li>序列化传输的数据量大小限制为16MB。</li>
+</ul>
+<h3 id="worker注意事项">Worker注意事项</h3>
+<ul>
+<li>创建Worker时，传入的Worker.ts路径在不同版本有不同的规则，详情请参见<a href="https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/taskpool-vs-worker-0000001632849934-V3#ZH-CN_TOPIC_0000001632849934__%e6%96%87%e4%bb%b6%e8%b7%af%e5%be%84%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9" target="_blank" rel="noopener noreffer ">文件路径注意事项</a>。</li>
+<li>Worker创建后需要手动管理生命周期，且最多同时运行的Worker子线程数量为8个，详情请参见<a href="https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/taskpool-vs-worker-0000001632849934-V3#ZH-CN_TOPIC_0000001632849934__%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9" target="_blank" rel="noopener noreffer ">生命周期注意事项</a>。</li>
+<li><a href="https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/application-package-structure-stage-0000001478061425-V3" target="_blank" rel="noopener noreffer ">Ability类型</a>的Module支持使用Worker，<a href="https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/application-package-structure-stage-0000001478061425-V3" target="_blank" rel="noopener noreffer ">Library类型</a>的Module不支持使用Worker。</li>
+<li>创建Worker不支持使用其他Module的Worker.ts文件，即不支持跨模块调用Worker。</li>
+<li>由于不同线程中上下文对象是不同的，因此Worker线程只能使用线程安全的库，例如UI相关的非线程安全库不能使用。</li>
+<li>序列化传输的数据量大小限制为16MB。</li>
+</ul>
+<h3 id="文件路径注意事项">文件路径注意事项</h3>
+<p>当使用Worker模块具体功能时，均需先构造Worker实例对象，其构造函数与API版本相关。</p>
+<pre tabindex="0"><code>// API 9及之后版本使用：
+const worker1 = new worker.ThreadWorker(scriptURL);
+</code></pre><p>构造函数需要传入Worker的路径（scriptURL），Worker文件存放位置默认路径为Worker文件所在目录与pages目录属于同级。</p>
+<p><strong>Stage模型</strong></p>
+<p>构造函数中的scriptURL示例如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// 写法一
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Stage模型-目录同级（entry模块下，workers目录与pages目录同级）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">worker1</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">worker</span>.<span style="color:#a6e22e">ThreadWorker</span>(<span style="color:#e6db74">&#39;entry/ets/workers/MyWorker.ts&#39;</span>, {<span style="color:#a6e22e">name</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;first worker in Stage model&#34;</span>});
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Stage模型-目录不同级（entry模块下，workers目录是pages目录的子目录）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">worker2</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">worker</span>.<span style="color:#a6e22e">ThreadWorker</span>(<span style="color:#e6db74">&#39;entry/ets/pages/workers/MyWorker.ts&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 写法二
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Stage模型-目录同级（entry模块下，workers目录与pages目录同级），假设bundlename是com.example.workerdemo
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">worker3</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">worker</span>.<span style="color:#a6e22e">ThreadWorker</span>(<span style="color:#e6db74">&#39;@bundle:com.example.workerdemo/entry/ets/workers/worker&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Stage模型-目录不同级（entry模块下，workers目录是pages目录的子目录），假设bundlename是com.example.workerdemo
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">worker4</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">worker</span>.<span style="color:#a6e22e">ThreadWorker</span>(<span style="color:#e6db74">&#39;@bundle:com.example.workerdemo/entry/ets/pages/workers/worker&#39;</span>);
+</span></span></code></pre></div><ul>
+<li>基于Stage模型工程目录结构，写法一的路径含义：
+<ul>
+<li>entry：module.json5文件中module的name属性对应值。</li>
+<li>ets：用于存放ets源码，固定目录。</li>
+<li>workers/MyWorker.ts：worker源文件在ets目录下的路径。</li>
+</ul>
+</li>
+<li>基于Stage模型工程目录结构，写法二的路径含义：
+<ul>
+<li>@bundle：固定标签。</li>
+<li>bundlename：当前应用包名。</li>
+<li>entryname：module.json5文件中module的name属性对应值。</li>
+<li>ets：用于存放ets源码，固定目录。</li>
+<li>workerdir/workerfile：worker源文件在ets目录下的路径，可不带文件后缀名。</li>
+</ul>
+</li>
+</ul>
+<h3 id="生命周期注意事项">生命周期注意事项</h3>
+<ul>
+<li>Worker的创建和销毁耗费性能，建议开发者合理管理已创建的Worker并重复使用。Worker空闲时也会一直运行，因此当不需要Worker时，可以调用<a href="https://developer.harmonyos.com/cn/docs/documentation/doc-references-V3/js-apis-worker-0000001427902752-V3#ZH-CN_TOPIC_0000001574088505__terminate9" target="_blank" rel="noopener noreffer ">terminate()</a>接口或<a href="https://developer.harmonyos.com/cn/docs/documentation/doc-references-V3/js-apis-worker-0000001427902752-V3#ZH-CN_TOPIC_0000001574088505__close9" target="_blank" rel="noopener noreffer ">parentPort.close()</a>方法主动销毁Worker。若Worker处于已销毁或正在销毁等非运行状态时，调用其功能接口，会抛出相应的错误。</li>
+<li>Worker存在数量限制，支持最多同时存在8个Worker。
+<ul>
+<li>在API version 8及之前的版本，当Worker数量超出限制时，会抛出“Too many workers, the number of workers exceeds the maximum.”错误。</li>
+<li>从API version 9开始，当Worker数量超出限制时，会抛出“Worker initialization failure, the number of workers exceeds the maximum.”错误。</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考">参考</h2>
+<p><a href="https://gitee.com/openharmony/docs/blob/master/zh-cn/application-dev/arkts-utils/Readme-CN.md" target="_blank" rel="noopener noreffer ">https://gitee.com/openharmony/docs/blob/master/zh-cn/application-dev/arkts-utils/Readme-CN.md</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2023-10-17</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="jianguo888.github.io/posts/ho/%E5%B9%B6%E5%8F%91/" data-title="并发" data-hashtags="OpenHarmony,HarmonyOS"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="jianguo888.github.io/posts/ho/%E5%B9%B6%E5%8F%91/" data-hashtag="OpenHarmony"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="jianguo888.github.io/posts/ho/%E5%B9%B6%E5%8F%91/" data-title="并发"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="jianguo888.github.io/posts/ho/%E5%B9%B6%E5%8F%91/" data-title="并发"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="jianguo888.github.io/posts/ho/%E5%B9%B6%E5%8F%91/" data-title="并发" data-ralateuid="u/7029338615"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="jianguo888.github.io/tags/openharmony/">OpenHarmony</a>,&nbsp;<a href="jianguo888.github.io/tags/harmonyos/">HarmonyOS</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="jianguo888.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="jianguo888.github.io/posts/git/" class="prev" rel="prev" title="Git"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Git</a>
+            <a href="jianguo888.github.io/posts/theme-documentation-bilibili-shortcode/" class="next" rel="next" title="OpenHarmony学习路线，哔哩哔哩">OpenHarmony学习路线，哔哩哔哩<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">鸿蒙坚果派创建</div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="jianguo888.github.io/" target="_blank"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://blog.csdn.net/qq_39132095" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp">甘肃丝路优选科技发展有限公司提供技术支持</span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/jianguo888.github.io/lib/valine/valine.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/typeit@8.6.0/dist/index.umd.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"zh-CN","pageSize":10,"placeholder":"你的评论 ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"data":{"id-1":"坚果的博客","id-2":"坚果的博客"},"lightgallery":true,"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/jianguo888.github.io/js/theme.min.js"></script></body>
+</html>
